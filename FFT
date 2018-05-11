@@ -1,0 +1,78 @@
+import numpy as np
+import timeit
+
+x = np.random.random(int(input("Ilosc liczb w wektorze: ")))
+X = []  # zmienna lista globalna wykorzystywana do difa
+
+
+def dft(x):
+    """ Zamiana danych na wektor
+    """
+    x = np.asarray(x, dtype=float)
+    n = x.shape[0]  # zbieramy dane o liczbie kolumn
+    # print n
+    y = np.arange(n)  # tworzymy wektor z wartosciami 1 do n
+    #  print y
+    k = y.reshape((n, 1))  # odwrocenie vektora
+    # print k
+    m = np.exp(-2j * np.pi * k * y / n)  # mnoznik
+
+    return (np.dot(m, x))  # zwracanie wyniku dft
+
+
+def dit(x):
+    N = len(x)
+    if N == 1:
+        return (x)
+    X_even = dit([x[k] for k in range(0, N, 2)])
+    X_odd = dit([x[k] for k in range(1, N, 2)])
+    M = N / 2
+    l = [X_even[k] + np.exp(-2j * np.pi * k / N) * X_odd[k] for k in range(M)]
+    r = [X_even[k] - np.exp(-2j * np.pi * k / N) * X_odd[k] for k in range(M)]
+
+    return (l + r)
+
+
+def dif(x):
+    N = len(x)
+    print(x)
+    print(N)
+    a = []
+    b = []
+    if (N == 2):
+        X.append(x[0] + x[1])
+        X.append(x[0] - x[1])
+    else:
+        for _ in range(N / 2):
+            a.append(x[_] + x[_ + N / 2])
+            b.append(x[_] - x[_ + N / 2])
+            b[_] = b[_] * np.exp(-2j * np.pi * _ / N)
+        dif(a)
+        dif(b)
+    return (X)
+
+
+# (np.exp(-2j*np.pi*k/N))*
+print("dft: ", timeit.timeit(lambda: dft(x), number=1))
+print("fft: ", timeit.timeit(lambda: np.fft.fft(x), number=1))
+print("dit: ", timeit.timeit(lambda: dit(x), number=1))
+print("dif: ", timeit.timeit(lambda: dif(x), number=1))
+
+def int_to_bit(x):
+    return bin(x)[2:].zfill(int(math.log(N, 2)))
+
+
+def bit_to_int(x):
+    try:
+        return (int(x, 2))
+    except TypeError:
+        x = str(x)
+        return (int(x, 2))
+
+
+def reverse_bit(x):
+    return (x[::-1])
+
+
+def RBO(x):
+    return (bit_to_int(reverse_bit(int_to_bit(x))))
