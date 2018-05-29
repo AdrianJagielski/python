@@ -6,3 +6,5 @@ codeg - Zaczęty bot do gry online opracowane sterowanie i podstawowe funkcje uz
 Finaltwoerzenia konto - Bot do tworzenia konta na stronie mfo3.pl
 
 Proba1 - logowanie na stronie
+
+main.py - Prosty skrypt do liczenia punktow scrabble.
